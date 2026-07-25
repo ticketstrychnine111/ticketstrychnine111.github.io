@@ -6,272 +6,416 @@
     <title>Portofoliu Viki - dimghro</title>
     
     <style>
-        /* Setări globale de font, fundal și dimensionare */
+        /* ========================================================
+           1. SETĂRI GLOBALE
+           ======================================================== */
         *, *::before, *::after {
             box-sizing: border-box;
-            font-family: inherit;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #fcf9f7;
-            font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif !important;
-            color: #4a443f;
+            font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+            color: #333333;
+            background-color: #ffffff;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Efect de derulare fină la click pe meniu */
         }
 
-        /* Containerul paginii web */
-        .main-wrapper {
-            max-width: 1200px;
+        /* ========================================================
+           2. MENIU PRINCIPAL (STICKY & RESPONSIVE)
+           ======================================================== */
+        .main-nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+            padding: 10px 20px;
+        }
+
+        .menu-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            gap: 8px 20px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
-            background: #ffffff;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
 
-        /* Protejarea linkurilor din titlurile proiectelor */
-        .project-title a {
-            color: #076ac9 !important;
-            text-decoration: none !important;
-        }
-        .project-title a:hover {
-            color: #034b91 !important;
-        }
-
-        /* Meniul rapid - efecte hover */
-        .viki-hover {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .viki-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        /* Containerul flexibil pentru grila de proiecte */
-        .projects-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            width: 100%;
-            justify-content: flex-start;
-        }
-
-        /* Caseta individuală a proiectului */
-        .project-card {
-            display: flex;
-            flex-direction: column;
-            flex: 0 0 calc(20% - 16px); /* 5 carduri pe rând pe ecran mare */
-            background: #ffffff;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        /* Imaginea posterului cu aspect ratio fix pentru postere drama */
-        .project-card img {
+        .menu-list li a {
             display: block;
-            width: 100%;
-            aspect-ratio: 2 / 3;
-            object-fit: cover;
-        }
-
-        /* Grupuri flexibile meniu rapid */
-        .menu-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-
-        .menu-btn {
-            flex: 1 1 200px;
-            background: linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%);
-            border: 1px solid #e5d8cd;
-            border-radius: 5px;
-            color: #86625b;
+            padding: 10px 5px;
+            color: #555555;
+            text-decoration: none;
             font-size: 13px;
             font-weight: bold;
-            padding: 15px;
-            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .menu-list li a:hover {
+            color: #076ac9;
+        }
+
+        /* Dropdown (Submeniu) */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            border: 1px solid #eeeeee;
+            z-index: 1001;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px !important;
             text-align: center;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown:hover .dropdown-content {
             display: block;
         }
 
-        /* Responsivitate pentru ecrane mici */
-        @media (max-width: 1024px) {
-            .project-card { flex: 0 0 calc(25% - 15px); } /* 4 carduri */
+        /* ========================================================
+           3. STRUCTURA SECȚIUNILOR (CONTAINERE & TITLURI)
+           ======================================================== */
+        .section-container {
+            width: 100%;
+            padding: 50px 20px;
         }
-        @media (max-width: 768px) {
-            .project-card { flex: 0 0 calc(33.333% - 13.4px); } /* 3 carduri */
+
+        /* Fundal personalizat pentru Slots Status */
+        .bg-slots {
+            background: linear-gradient(135deg, #ebdcf9 0%, #dcf1fc 100%);
         }
-        @media (max-width: 550px) {
-            .project-card { flex: 0 0 calc(50% - 10px); } /* 2 carduri */
-            .main-wrapper { padding: 10px; }
+
+        /* Fundal personalizat pentru Ongoing Pre-Subbed */
+        .bg-ongoing {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
         }
-        @media (max-width: 380px) {
-            .project-card { flex: 0 0 100%; } /* 1 card */
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            display: inline-block;
+            background: linear-gradient(to right, #fcfaf8, #f3e9df);
+            border: 1px solid #e5d8cd;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            padding: 12px 60px;
+            border-radius: 4px;
+            color: #7a5c58;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ========================================================
+           4. GRILA DE PROIECTE (CARDURI)
+           ======================================================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 16 / 10; /* Raport optim pentru postere peisaj */
+            background-color: #ffb8b8; /* Culoare de rezervă dacă nu se încarcă imaginea */
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #222222;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-subtitle {
+            font-size: 11px;
+            color: #777777;
+            margin-bottom: 15px;
+        }
+
+        .card-stats {
+            font-size: 11px;
+            color: #444444;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            flex-grow: 1;
+        }
+
+        .card-stats span {
+            font-weight: bold;
+        }
+
+        /* Bara de progres */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: #eeeeee;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: auto;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #2b70d4;
+            border-radius: 2px;
+        }
+
+        /* ========================================================
+           5. RESPONSIVITATE (ADAPTARE ECRANE)
+           ======================================================== */
+        @media (max-width: 1200px) {
+            .cards-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 650px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .section-container { padding: 30px 10px; }
+            .section-title { padding: 10px 40px; font-size: 16px; }
+        }
+        @media (max-width: 400px) {
+            .cards-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="main-wrapper">
-
-    <!-- HEADER & WELCOME SECTION -->
-    <div style="text-align:center; margin-bottom:40px;">
-        <img alt="Banner" src="https://s7.gifyu.com/images/SJUdE.gif" style="max-width:100%; height:auto; border-radius:8px;" />
-        <div style="margin-top:-60px; position:relative; z-index:10;">
-            <img alt="Avatar" src="https://1.vikiplatform.com/u/40835752u/Aa3zZVahDI.png" style="border-radius:10px; height:150px; width:130px; object-fit:cover; border:3px solid #ffffff; box-shadow:0 10px 25px rgba(0,0,0,0.1);" />
-        </div>
-        <h1 style="color:#5a6d5a; margin-top:15px; font-size:28px;">Welcome to my portfolio</h1>
-        <div style="color:#bc8f8f; font-size:12px; font-weight:bold; letter-spacing:3px; text-transform:uppercase;">Native Romanian Speaker</div>
-    </div>
-
-    <!-- QUICK MENU SECTION -->
-    <div style="background:linear-gradient(135deg, #efe2d7 0%, #fdfbf7 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:30px 15px; text-align:center; margin-bottom:40px;">
-        <div style="margin-bottom:25px;">
-            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; padding:12px 30px;">
-                <span style="color:#86625b; font-size:18px;"><strong>QUICK MENU FOR MY HISTORY</strong></span>
-            </div>
-        </div>
-
-        <div style="max-width:900px; margin:0 auto;">
-            <a class="menu-btn viki-hover" href="#cm-manager" style="margin-bottom:12px;">CHANNEL MANAGER &amp; CO-MANAGER</a>
+    <!-- ========================================================
+         MENIU FIX (Aici adaugi, ștergi sau editezi linkurile)
+         ======================================================== -->
+    <nav class="main-nav">
+        <ul class="menu-list">
+            <li><a href="#slots">🧮 Slots Status</a></li>
+            <li><a href="#ongoing">🔤 Ongoing Pre-Subbed</a></li>
+            <li><a href="#cm">💼 Channel Manager</a></li>
+            <li><a href="#ro-mod">👔 RO Moderator</a></li>
+            <li><a href="#ro-final">🔏 RO Final Editor</a></li>
+            <li><a href="#ro-trans">📝 RO Translation Editor</a></li>
+            <li><a href="#ro-sub">🆎 RO Subtitler</a></li>
+            <li><a href="#cover">🎨 Cover Designer</a></li>
             
-            <div class="menu-row">
-                <a class="menu-btn viki-hover" href="#ro-moderator">ROMANIAN MODERATOR</a>
-                <a class="menu-btn viki-hover" href="#ro-final-editor">ROMANIAN FINAL EDITOR</a>
-                <a class="menu-btn viki-hover" href="#ro-trans-editor">ROMANIAN TRANSLATION EDITOR</a>
-            </div>
-
-            <div class="menu-row" style="margin-bottom:0;">
-                <a class="menu-btn viki-hover" href="#ro-sub-only">ROMANIAN SUBTITLER ONLY</a>
-                <a class="menu-btn viki-hover" href="#cover-en">COVER DESIGNER FOR EN</a>
-                <a class="menu-btn viki-hover" href="#cover-ol">COVER DESIGNER FOR OL</a>
-            </div>
-        </div>
-
-        <div style="background:rgba(255, 255, 255, 0.5); border:1px dashed #cba8a2; border-radius:5px; color:#86625b; font-size:12px; line-height:1.6; margin:20px auto 0 auto; max-width:900px; padding:15px;">
-            <em>Please note that I am rebuilding my history here on GitHub to overcome the Viki character limits. More projects will be added soon.</em>
-        </div>
-    </div>
+            <!-- Submeniu -->
+            <li class="dropdown">
+                <a href="#genre">📔 By Genre ▾</a>
+                <div class="dropdown-content">
+                    <a href="#costume-fantasy">Costume/Fantasy</a>
+                    <a href="#bl">BL</a>
+                    <a href="#animations">Animations</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
 
 
-    <!-- ============================================== -->
-    <!-- SECȚIUNEA: CHANNEL MANAGER & CO-MANAGER -->
-    <!-- ============================================== -->
-    <div id="cm-manager" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 20px; text-align:center; width:100%; margin-bottom:40px;">
+    <!-- ========================================================
+         SECȚIUNEA 1: SLOTS STATUS
+         ======================================================== -->
+    <section id="slots" class="section-container bg-slots">
         
-        <div style="margin-bottom:28px;">
-            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; padding:12px 30px;">
-                <span style="color:#86625b; font-size:19px;"><strong>CHANNEL MANAGER &amp; CO-MANAGER</strong></span>
-            </div>
+        <div class="section-header">
+            <div class="section-title">MY SLOTS</div>
         </div>
 
-        <div class="projects-grid">
+        <div class="cards-grid">
             
-            <!-- MODEL PROIECT 1 -->
-            <div class="project-card">
-                <a href="#" target="_blank">
-                    <img alt="Poster" src="https://1.vikiplatform.com/c/41143c/54bc42bb64.jpg" />
-                </a>
-                <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
-                    <div class="project-title" title="The Seven Relics of Ill Omen" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
-                        <a href="#" target="_blank">The Seven Relics of Ill Omen</a>
+            <!-- CARD MODEL 1 (Completat) -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://1.vikiplatform.com/c/41143c/54bc42bb64.jpg" alt="Pearl in Red">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Pearl in Red</div>
+                    <div class="card-subtitle">102 episodes • Korea • 2026</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>anda64</span></div>
+                        <div>English CE: <span>76/102</span></div>
+                        <div>RO Ongoing: <span>76 / 102 eps</span></div>
                     </div>
-                    <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2026 • Series • PreSubbed</div>
-                    
-                    <div style="background:#3381ff; border-radius:5px; height:6px; overflow:hidden; width:100%; margin-bottom:10px;"></div>
-                    <div style="flex-grow:1;"></div>
-
-                    <div style="font-size:11px; color:#555555; margin-bottom:6px;">
-                        <strong>My Roles:</strong> CM • Editor
-                    </div>
-                    <div style="font-size:11px; color:#777777;">
-                        <strong>Other Info:</strong> -
+                    <div class="progress-container">
+                        <!-- Modifici lățimea % din style pentru a umple bara -->
+                        <div class="progress-fill" style="width: 74%;"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- MODEL PROIECT 2 -->
-            <div class="project-card">
-                <a href="#" target="_blank">
-                    <img alt="Poster" src="https://1.vikiplatform.com/c/40980c/1722655531.jpg" />
-                </a>
-                <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
-                    <div class="project-title" title="Ski Into Love" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
-                        <a href="#" target="_blank">Ski Into Love</a>
+            <!-- CARD MODEL 2 (Completat) -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://1.vikiplatform.com/c/40980c/1722655531.jpg" alt="Veil of Shadows">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Veil of Shadows</div>
+                    <div class="card-subtitle">29 episodes • China • 2026</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>dimghro</span></div>
+                        <div>English CE: <span>22/29</span></div>
+                        <div>RO Ongoing: <span>22 / 29 eps</span></div>
                     </div>
-                    <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2026 • Series • PreSubbed</div>
-                    
-                    <div style="background:#3381ff; border-radius:5px; height:6px; overflow:hidden; width:100%; margin-bottom:10px;"></div>
-                    <div style="flex-grow:1;"></div>
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+            </div>
 
-                    <div style="font-size:11px; color:#555555; margin-bottom:6px;">
-                        <strong>My Roles:</strong> CM
+            <!-- CARD MODEL 3 (Free Slot) -->
+            <div class="card">
+                <div class="card-image">
+                    <!-- Aici poți pune linkul către imaginea cu vulpea, acum e doar fundalul pregătit -->
+                    <img src="" alt="Free Slot" style="object-fit: contain; padding: 20px;">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Free Slot</div>
+                    <div class="card-subtitle">00 episodes</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>#N/A</span></div>
+                        <div>English CE: <span>#N/A</span></div>
+                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
                     </div>
-                    <div style="font-size:11px; color:#777777;">
-                        <strong>Other Info:</strong> -
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD MODEL 4 (Free Slot) -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="" alt="Free Slot" style="object-fit: contain; padding: 20px;">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Free Slot</div>
+                    <div class="card-subtitle">00 episodes</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>#N/A</span></div>
+                        <div>English CE: <span>#N/A</span></div>
+                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD MODEL 5 (Free Slot) -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="" alt="Free Slot" style="object-fit: contain; padding: 20px;">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Free Slot</div>
+                    <div class="card-subtitle">00 episodes</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>#N/A</span></div>
+                        <div>English CE: <span>#N/A</span></div>
+                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
 
         </div>
-    </div>
+    </section>
 
 
-    <!-- ============================================== -->
-    <!-- SECȚIUNEA: ROMANIAN MODERATOR -->
-    <!-- ============================================== -->
-    <div id="ro-moderator" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 20px; text-align:center; width:100%; margin-bottom:40px;">
+    <!-- ========================================================
+         SECȚIUNEA 2: ONGOING PRE-SUBBED
+         ======================================================== -->
+    <section id="ongoing" class="section-container bg-ongoing">
         
-        <div style="margin-bottom:15px;">
-            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; padding:12px 30px;">
-                <span style="color:#86625b; font-size:19px;"><strong>ROMANIAN MODERATOR</strong></span>
-            </div>
+        <div class="section-header">
+            <div class="section-title">ONGOING PRE-SUBBED</div>
         </div>
 
-        <div style="background:rgba(255, 255, 255, 0.5); border:1px dashed #cba8a2; border-radius:5px; color:#86625b; font-size:11px; line-height:1.5; margin:0 auto 28px auto; max-width:80%; padding:10px 15px;">
-            <em><strong>* Note:</strong> Please note that I'm always a Subtitler for my moderated channels, and I was also a Final Editor for many of them.</em>
-        </div>
-
-        <div class="projects-grid">
+        <div class="cards-grid">
             
-            <!-- MODEL PROIECT MODERATOR -->
-            <div class="project-card">
-                <a href="#" target="_blank">
-                    <img alt="Poster" src="https://1.vikiplatform.com/c/36780c/d3c9f19da3.jpg" />
-                </a>
-                <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
-                    <div class="project-title" title="Put Your Head on My Shoulder" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
-                        <a href="#" target="_blank">Put Your Head on My Shoulder</a>
+            <!-- CARD MODEL -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://1.vikiplatform.com/c/40671c/2d32faafe7.jpg" alt="Proiect">
+                </div>
+                <div class="card-content">
+                    <div class="card-title">Nume Proiect</div>
+                    <div class="card-subtitle">40 episodes • China • 2026</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>Nume</span></div>
+                        <div>English CE: <span>10/40</span></div>
+                        <div>RO Ongoing: <span>10 / 40 eps</span></div>
                     </div>
-                    <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2019 • Series</div>
-                    
-                    <div style="background:#3381ff; border-radius:5px; height:6px; overflow:hidden; width:100%; margin-bottom:10px;"></div>
-                    <div style="flex-grow:1;"></div>
-
-                    <div style="font-size:11px; color:#555555; margin-bottom:6px;">
-                        <strong>My Roles:</strong> Moderator • Final Editor
-                    </div>
-                    <div style="font-size:11px; color:#777777;">
-                        <strong>Other Info:</strong> -
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 25%;"></div>
                     </div>
                 </div>
             </div>
 
-        </div>
-    </div>
+            <!-- Adaugă restul cardurilor aici respectând aceeași structură -->
 
-</div>
+        </div>
+    </section>
 
 </body>
 </html>
