@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viki Portofolio - dimghro</title>
+    <title>Viki Portfolio - dimghro</title>
     
     <!-- Import Google Font: Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         /* ========================================================
-           1. SETĂRI GLOBALE ȘI VARIABILE (LIGHT/DARK MODE)
+           1. GLOBAL SETTINGS & VARIABLES (LIGHT/DARK MODE)
            ======================================================== */
         :root {
             --bg-body: #ffffff;
@@ -26,6 +26,7 @@
             --card-hover-shadow: rgba(0, 0, 0, 0.12);
             --bg-slots: linear-gradient(135deg, #e8cff7 0%, #d1f0ff 100%);
             --bg-ongoing: linear-gradient(135deg, #B8E0B1 0%, #F2FFF0 100%);
+            --bg-history: linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%);
             --title-bg: linear-gradient(to right, #fcfaf8, #f3e9df);
             --title-border: #e5d8cd;
             --title-text: #7a5c58;
@@ -33,6 +34,12 @@
             --link-hover: #076ac9;
             --slider-btn-bg: rgba(255, 255, 255, 0.8);
             --slider-btn-color: #333333;
+            
+            /* Filter Variables */
+            --filter-bg: #f9f9f9;
+            --filter-border: #e0e0e0;
+            --dropdown-bg: #ffffff;
+            --dropdown-hover: #f0f8ff;
         }
 
         [data-theme="dark"] {
@@ -47,6 +54,7 @@
             --card-hover-shadow: rgba(0, 0, 0, 0.8);
             --bg-slots: linear-gradient(135deg, #2a1b38 0%, #1b2a38 100%);
             --bg-ongoing: linear-gradient(135deg, #222222 0%, #2a2a2a 100%);
+            --bg-history: linear-gradient(135deg, #1a242f 0%, #2a1f1f 100%);
             --title-bg: linear-gradient(to right, #2a2420, #382c22);
             --title-border: #4a3a30;
             --title-text: #d4b5a8;
@@ -54,6 +62,12 @@
             --link-hover: #66b2ff;
             --slider-btn-bg: rgba(30, 30, 30, 0.8);
             --slider-btn-color: #e0e0e0;
+            
+            /* Filter Variables */
+            --filter-bg: #2a2a2a;
+            --filter-border: #444444;
+            --dropdown-bg: #1e1e1e;
+            --dropdown-hover: #333333;
         }
 
         *, *::before, *::after {
@@ -77,7 +91,7 @@
         }
 
         /* ========================================================
-           2. MENIU PRINCIPAL (STICKY & RESPONSIVE)
+           2. MAIN MENU (FRESH & INTERACTIVE)
            ======================================================== */
         .main-nav {
             position: sticky;
@@ -86,7 +100,7 @@
             background-color: var(--bg-nav);
             box-shadow: 0 2px 10px var(--nav-shadow);
             z-index: 1000;
-            padding: 10px 20px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -99,7 +113,7 @@
             justify-content: center;
             align-items: center;
             list-style: none;
-            gap: 8px 20px;
+            gap: 15px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
@@ -107,15 +121,21 @@
 
         .menu-list li a {
             display: block;
-            padding: 10px 5px;
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: bold;
-            transition: color 0.2s ease;
+            padding: 8px 16px;
+            background-color: var(--progress-bg);
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px var(--card-shadow);
         }
 
         .menu-list li a:hover {
-            color: var(--link-hover);
+            background-color: var(--link-hover);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
         .mobile-menu-btn {
@@ -130,66 +150,37 @@
             font-family: inherit;
         }
 
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: var(--bg-nav);
-            min-width: 160px;
-            box-shadow: 0 8px 16px var(--nav-shadow);
-            border-radius: 5px;
-            border: 1px solid var(--title-border);
-            z-index: 1001;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .dropdown-content a {
-            padding: 12px 16px !important;
-            text-align: center;
-            border-bottom: 1px solid var(--progress-bg);
-        }
-
-        .dropdown-content a:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
         .theme-toggle {
             background: none;
-            border: 1px solid var(--title-border);
+            border: 2px solid var(--title-border);
             border-radius: 20px;
-            padding: 5px 12px;
+            padding: 6px 15px;
             color: var(--text-main);
             cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 900;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
         .theme-toggle:hover {
             background-color: var(--progress-bg);
+            transform: translateY(-2px);
         }
 
         /* ========================================================
-           3. STRUCTURA SECȚIUNILOR (CONTAINERE & TITLURI)
+           3. SECTION STRUCTURE (CONTAINERS & TITLES)
            ======================================================== */
         .section-container {
             width: 100%;
-            padding: 50px 0; /* Padding lateral scos pt slider */
+            padding: 50px 0; 
             transition: background 0.3s ease;
             position: relative;
         }
 
         .bg-slots { background: var(--bg-slots); }
         .bg-ongoing { background: var(--bg-ongoing); }
+        .bg-history { background: var(--bg-history); }
 
         .section-header {
             text-align: center;
@@ -216,10 +207,248 @@
         }
 
         /* ========================================================
-           4. SLIDER & GRILA DE PROIECTE
+           4. HISTORY DROPDOWN FILTERING SYSTEM
+           ======================================================== */
+        .filter-container {
+            max-width: 1300px;
+            margin: 0 auto 40px auto;
+            padding: 20px;
+            background-color: var(--filter-bg);
+            border: 1px solid var(--filter-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px var(--card-shadow);
+        }
+
+        .filter-guide {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .filter-group-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Dropdown Styling */
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+            width: 200px;
+        }
+
+        .custom-select {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .custom-select__trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            background: var(--dropdown-bg);
+            border: 1px solid var(--filter-border);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .custom-select__trigger:hover {
+            border-color: var(--link-hover);
+        }
+        
+        .custom-select.open .custom-select__trigger {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-color: var(--link-hover);
+        }
+
+        .arrow {
+            position: relative;
+            height: 10px;
+            width: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .arrow::before, .arrow::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 0.15rem;
+            height: 100%;
+            background-color: var(--text-main);
+            transition: all 0.3s;
+        }
+
+        .arrow::before {
+            left: -3px;
+            transform: rotate(-45deg);
+        }
+
+        .arrow::after {
+            left: 3px;
+            transform: rotate(45deg);
+        }
+
+        .custom-select.open .arrow {
+            transform: rotate(-180deg);
+        }
+
+        .custom-options {
+            position: absolute;
+            display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border: 1px solid var(--filter-border);
+            border-top: 0;
+            background: var(--dropdown-bg);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 2;
+            max-height: 250px;
+            overflow-y: auto;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .custom-select.open .custom-options {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+        
+        /* Scrollbar pt dropdown */
+        .custom-options::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-options::-webkit-scrollbar-track {
+            background: var(--dropdown-bg);
+        }
+        .custom-options::-webkit-scrollbar-thumb {
+            background: var(--filter-border);
+            border-radius: 3px;
+        }
+
+        .custom-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .custom-option:hover {
+            background-color: var(--dropdown-hover);
+        }
+        
+        /* Checkbox Styling within Dropdown */
+        .custom-checkbox {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--text-muted);
+            border-radius: 3px;
+            margin-right: 10px;
+            position: relative;
+            background: transparent;
+            transition: all 0.2s;
+        }
+        
+        .custom-option.selected .custom-checkbox {
+            background-color: var(--link-hover);
+            border-color: var(--link-hover);
+        }
+        
+        .custom-option.selected .custom-checkbox::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            width: 4px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .reset-filter-btn {
+            display: block;
+            margin: 0 auto;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(255, 77, 77, 0.3);
+            font-family: inherit;
+        }
+
+        .reset-filter-btn:hover {
+            background-color: #ff3333;
+            transform: translateY(-2px);
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-muted);
+            width: 100%;
+        }
+        
+        /* Badge counts logic */
+        .filter-badge {
+            display: none;
+            background-color: var(--link-hover);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            text-align: center;
+            line-height: 18px;
+            margin-left: 5px;
+        }
+        .filter-badge.active {
+            display: inline-block;
+        }
+
+        /* ========================================================
+           5. SLIDER & PROJECT GRID
            ======================================================== */
         .slider-wrapper {
             position: relative;
+            max-width: 1340px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* For history section without slider */
+        .history-wrapper {
             max-width: 1340px;
             margin: 0 auto;
             padding: 0 20px;
@@ -233,12 +462,18 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             padding-bottom: 20px;
-            /* Ascunde scrollbar pe Firefox & IE */
             scrollbar-width: none; 
             -ms-overflow-style: none;
         }
+        
+        /* Grid specifically for History to wrap items */
+        .history-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: flex-start;
+        }
 
-        /* Ascunde scrollbar pe Chrome/Safari */
         .cards-grid::-webkit-scrollbar {
             display: none;
         }
@@ -250,11 +485,14 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-            
-            /* Setări implicite slider (Desktop) */
-            flex: 0 0 calc(20% - 16px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, opacity 0.3s ease;
+            flex: 0 0 calc(20% - 16px); /* 5 items per row */
             scroll-snap-align: start;
+        }
+        
+        .history-grid .card {
+            /* History cards wrap, they don't slide */
+            scroll-snap-align: none;
         }
 
         .card:hover {
@@ -301,6 +539,15 @@
             color: var(--text-muted);
             margin-bottom: 15px;
         }
+        
+        /* Delimiter used in History cards */
+        .card-delimiter {
+            width: 100%;
+            height: 4px;
+            background-color: #2b70d4;
+            border-radius: 2px;
+            margin-bottom: 12px;
+        }
 
         .card-stats {
             font-size: 12px;
@@ -330,7 +577,7 @@
             border-radius: 2px;
         }
 
-        /* Butoane Slider */
+        /* Slider Buttons */
         .slider-btn {
             position: absolute;
             top: 50%;
@@ -363,13 +610,12 @@
             right: 5px;
         }
         
-        /* Ascunde butoanele pe Desktop dacă nu e nevoie de slider */
         @media (min-width: 1300px) {
             .slider-btn { display: none; }
         }
 
         /* ========================================================
-           5. BUTON BACK TO TOP
+           6. BACK TO TOP BUTTON
            ======================================================== */
         .back-to-top {
             position: fixed;
@@ -404,7 +650,7 @@
         }
 
         /* ========================================================
-           6. RESPONSIVITATE (ADAPTARE ECRANE & MENIU MOBIL)
+           7. RESPONSIVENESS
            ======================================================== */
         @media (max-width: 1200px) {
             .card { flex: 0 0 calc(25% - 15px); }
@@ -427,74 +673,47 @@
                 padding: 20px 0;
             }
             .menu-list.active {
-                display: grid;
-                grid-template-columns: 1fr 1fr; 
-                gap: 15px 10px;
-                padding: 20px;
+                display: flex;
             }
-            .menu-list li { width: 100%; text-align: left; }
-            .dropdown-content {
-                position: static; 
-                box-shadow: none;
-                border: none;
-                background-color: transparent;
-                padding-left: 15px;
-                transform: none;
-            }
-            .dropdown:hover .dropdown-content { display: none; }
-            .dropdown.active .dropdown-content { display: block; }
+            .menu-list li { width: 100%; text-align: center; }
             
-            /* Slider Mobile */
-            .slider-btn { display: flex; } /* Arată butoanele mereu pe tabletă/mobil */
+            .slider-btn { display: flex; } 
+            
+            .filter-group-container { flex-direction: column; align-items: center; }
+            .custom-select-wrapper { width: 100%; max-width: 300px; }
         }
 
         @media (max-width: 650px) {
             .section-header { padding: 0 10px; }
             .section-title { width: 100%; font-size: 16px; }
-            /* Arată 1 card întreg și 15% din următorul */
             .card { flex: 0 0 85%; } 
-        }
-        @media (max-width: 400px) {
-            .menu-list.active { grid-template-columns: 1fr; } 
+            
+            /* Make history grid cards stack on mobile */
+            .history-grid .card { flex: 0 0 100%; }
         }
     </style>
 </head>
 <body>
 
     <!-- ========================================================
-         MENIU FIX
+         FIXED MENU
          ======================================================== -->
     <nav class="main-nav">
-        <!-- Buton Meniu Mobil -->
         <button class="mobile-menu-btn" id="mobileBtn">☰ MENU</button>
         
         <ul class="menu-list" id="menuList">
+            <li><a href="https://contribute.viki.com/users/dimghro/about" target="_blank" class="menu-link">💙 Viki Profile</a></li>
             <li><a href="#slots" class="menu-link">🧮 Slots Status</a></li>
             <li><a href="#ongoing" class="menu-link">🔤 Ongoing Pre-Subbed</a></li>
-            <li><a href="#cm" class="menu-link">💼 Channel Manager</a></li>
-            <li><a href="#ro-mod" class="menu-link">👔 RO Moderator</a></li>
-            <li><a href="#ro-final" class="menu-link">🔏 RO Final Editor</a></li>
-            <li><a href="#ro-trans" class="menu-link">📝 RO Translation Editor</a></li>
-            <li><a href="#ro-sub" class="menu-link">🆎 RO Subtitler</a></li>
-            <li><a href="#cover" class="menu-link">🎨 Cover Designer</a></li>
-            
-            <li class="dropdown" id="dropdownMenu">
-                <a href="#genre" id="genreBtn">📔 By Genre ▾</a>
-                <div class="dropdown-content">
-                    <a href="#costume-fantasy" class="menu-link">Costume/Fantasy</a>
-                    <a href="#bl" class="menu-link">BL</a>
-                    <a href="#animations" class="menu-link">Animations</a>
-                </div>
-            </li>
+            <li><a href="#history" class="menu-link">📚 My History</a></li>
         </ul>
 
-        <!-- Buton Light/Dark Mode -->
         <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
     </nav>
 
 
     <!-- ========================================================
-         SECȚIUNEA 1: SLOTS STATUS
+         SECTION 1: SLOTS STATUS
          ======================================================== -->
     <section id="slots" class="section-container bg-slots">
         
@@ -608,7 +827,7 @@
 
 
     <!-- ========================================================
-         SECȚIUNEA 2: ONGOING PRE-SUBBED
+         SECTION 2: ONGOING PRE-SUBBED
          ======================================================== -->
     <section id="ongoing" class="section-container bg-ongoing">
         
@@ -639,8 +858,8 @@
                     </div>
                 </div>
                 
-                <!-- CARD MODEL -->
-                <div class="card">
+                <!-- Add more ongoing cards as needed -->
+                 <div class="card">
                     <a href="#" target="_blank" class="card-image">
                         <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
                     </a>
@@ -658,46 +877,7 @@
                     </div>
                 </div>
                 
-                <!-- CARD MODEL -->
-                <div class="card">
-                    <a href="#" target="_blank" class="card-image">
-                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                    </a>
-                    <div class="card-content">
-                        <a href="#" target="_blank" class="card-title">None</a>
-                        <div class="card-subtitle">00 episodes • Country • 2026</div>
-                        <div class="card-stats">
-                            <div>Editor: <span>Name</span></div>
-                            <div>English CE: <span>0 / 40</span></div>
-                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-fill" style="width: 25%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD MODEL -->
-                <div class="card">
-                    <a href="#" target="_blank" class="card-image">
-                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                    </a>
-                    <div class="card-content">
-                        <a href="#" target="_blank" class="card-title">None</a>
-                        <div class="card-subtitle">00 episodes • Country • 2026</div>
-                        <div class="card-stats">
-                            <div>Editor: <span>Name</span></div>
-                            <div>English CE: <span>0 / 40</span></div>
-                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-fill" style="width: 25%;"></div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- CARD MODEL -->
-                <div class="card">
+                 <div class="card">
                     <a href="#" target="_blank" class="card-image">
                         <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
                     </a>
@@ -720,19 +900,353 @@
         </div>
     </section>
 
-    <!-- Buton Back to Top -->
+    <!-- ========================================================
+         SECTION 3: MY HISTORY
+         ======================================================== -->
+    <section id="history" class="section-container bg-history">
+        
+        <div class="section-header">
+            <div class="section-title">MY HISTORY</div>
+        </div>
+        
+        <!-- Filter System -->
+        <div class="filter-container">
+            <div class="filter-guide">
+                * Select checkboxes from dropdowns to filter projects. You can select multiple tags across categories. Click 'Reset Filters' to show all.
+            </div>
+            
+            <div class="filter-group-container">
+                
+                <!-- Role Filter Dropdown -->
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" data-filter-type="role">
+                        <div class="custom-select__trigger">
+                            <span>Role <span class="filter-badge">0</span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="cm">
+                                <span class="custom-checkbox"></span> Channel Manager
+                            </span>
+                            <span class="custom-option" data-value="co-cm">
+                                <span class="custom-checkbox"></span> Co-Channel Manager
+                            </span>
+                            <span class="custom-option" data-value="mod">
+                                <span class="custom-checkbox"></span> Moderator
+                            </span>
+                            <span class="custom-option" data-value="co-mod">
+                                <span class="custom-checkbox"></span> Co-Moderator
+                            </span>
+                            <span class="custom-option" data-value="fe">
+                                <span class="custom-checkbox"></span> Final Editor
+                            </span>
+                            <span class="custom-option" data-value="te">
+                                <span class="custom-checkbox"></span> Translation Editor
+                            </span>
+                            <span class="custom-option" data-value="subber">
+                                <span class="custom-checkbox"></span> Subtitler
+                            </span>
+                            <span class="custom-option" data-value="cd">
+                                <span class="custom-checkbox"></span> Cover Designer
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Country Filter Dropdown -->
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" data-filter-type="country">
+                        <div class="custom-select__trigger">
+                            <span>Country <span class="filter-badge">0</span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="china">
+                                <span class="custom-checkbox"></span> China
+                            </span>
+                            <span class="custom-option" data-value="korea">
+                                <span class="custom-checkbox"></span> Korea
+                            </span>
+                            <span class="custom-option" data-value="thailand">
+                                <span class="custom-checkbox"></span> Thailand
+                            </span>
+                            <span class="custom-option" data-value="japan">
+                                <span class="custom-checkbox"></span> Japan
+                            </span>
+                            <span class="custom-option" data-value="taiwan">
+                                <span class="custom-checkbox"></span> Taiwan
+                            </span>
+                            <span class="custom-option" data-value="philippines">
+                                <span class="custom-checkbox"></span> Philippines
+                            </span>
+                            <span class="custom-option" data-value="vietnam">
+                                <span class="custom-checkbox"></span> Vietnam
+                            </span>
+                            <span class="custom-option" data-value="hong kong">
+                                <span class="custom-checkbox"></span> Hong Kong
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Genre Filter Dropdown -->
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" data-filter-type="genre">
+                        <div class="custom-select__trigger">
+                            <span>Genre <span class="filter-badge">0</span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="modern">
+                                <span class="custom-checkbox"></span> Modern
+                            </span>
+                            <span class="custom-option" data-value="costume">
+                                <span class="custom-checkbox"></span> Costume
+                            </span>
+                            <span class="custom-option" data-value="bl">
+                                <span class="custom-checkbox"></span> BL
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Type Filter Dropdown -->
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" data-filter-type="type">
+                        <div class="custom-select__trigger">
+                            <span>Type <span class="filter-badge">0</span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="series">
+                                <span class="custom-checkbox"></span> Series
+                            </span>
+                            <span class="custom-option" data-value="movie">
+                                <span class="custom-checkbox"></span> Movie
+                            </span>
+                            <span class="custom-option" data-value="show">
+                                <span class="custom-checkbox"></span> Show
+                            </span>
+                            <span class="custom-option" data-value="animation">
+                                <span class="custom-checkbox"></span> Animation
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Subtitles Source Filter Dropdown -->
+                <div class="custom-select-wrapper">
+                    <div class="custom-select" data-filter-type="source">
+                        <div class="custom-select__trigger">
+                            <span>Sub Source <span class="filter-badge">0</span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <span class="custom-option" data-value="pre-subbed">
+                                <span class="custom-checkbox"></span> Pre-Subbed
+                            </span>
+                            <span class="custom-option" data-value="volunteers">
+                                <span class="custom-checkbox"></span> Volunteers
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <button class="reset-filter-btn" id="resetFilters">Reset Filters</button>
+        </div>
+
+        <div class="history-wrapper">
+            <div id="noResultsMsg" class="no-results">No projects match the selected filters.</div>
+            
+            <div class="cards-grid history-grid" id="historyGrid">
+                
+                <!-- HISTORY PROJECT 1 -->
+                <div class="card history-item" data-role="cm,fe" data-country="china" data-genre="costume" data-type="series" data-source="pre-subbed">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 1</a>
+                        <div class="card-subtitle">China • 2026 • Costume • Series</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Pre-Subbed</span></div>
+                            <div>Roles: <span>CM ; FE</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 2 -->
+                <div class="card history-item" data-role="mod,subber" data-country="korea" data-genre="modern" data-type="series" data-source="volunteers">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 2</a>
+                        <div class="card-subtitle">Korea • 2025 • Modern • Series</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Volunteers</span></div>
+                            <div>Roles: <span>MOD ; SUBBER</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 3 -->
+                <div class="card history-item" data-role="co-mod" data-country="thailand" data-genre="bl" data-type="series" data-source="pre-subbed">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 3</a>
+                        <div class="card-subtitle">Thailand • 2026 • BL • Series</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Pre-Subbed</span></div>
+                            <div>Roles: <span>Co-MOD</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 4 -->
+                <div class="card history-item" data-role="cd" data-country="japan" data-genre="modern" data-type="movie" data-source="volunteers">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 4</a>
+                        <div class="card-subtitle">Japan • 2024 • Modern • Movie</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Volunteers</span></div>
+                            <div>Roles: <span>CD</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 5 -->
+                <div class="card history-item" data-role="subber" data-country="china" data-genre="modern" data-type="show" data-source="pre-subbed">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 5</a>
+                        <div class="card-subtitle">China • 2026 • Modern • Show</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Pre-Subbed</span></div>
+                            <div>Roles: <span>SUBBER</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 6 -->
+                <div class="card history-item" data-role="fe,te" data-country="korea" data-genre="costume" data-type="series" data-source="volunteers">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 6</a>
+                        <div class="card-subtitle">Korea • 2023 • Costume • Series</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Volunteers</span></div>
+                            <div>Roles: <span>FE ; TE</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 7 -->
+                <div class="card history-item" data-role="co-cm,mod" data-country="taiwan" data-genre="bl" data-type="movie" data-source="pre-subbed">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 7</a>
+                        <div class="card-subtitle">Taiwan • 2026 • BL • Movie</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Pre-Subbed</span></div>
+                            <div>Roles: <span>Co-CM ; MOD</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 8 -->
+                <div class="card history-item" data-role="subber" data-country="china" data-genre="costume" data-type="animation" data-source="volunteers">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 8</a>
+                        <div class="card-subtitle">China • 2025 • Costume • Animation</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Volunteers</span></div>
+                            <div>Roles: <span>SUBBER</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 9 -->
+                <div class="card history-item" data-role="mod,fe" data-country="philippines" data-genre="modern" data-type="series" data-source="pre-subbed">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 9</a>
+                        <div class="card-subtitle">Philippines • 2026 • Modern • Series</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Pre-Subbed</span></div>
+                            <div>Roles: <span>MOD ; FE</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HISTORY PROJECT 10 -->
+                <div class="card history-item" data-role="cm,cd" data-country="korea" data-genre="modern" data-type="movie" data-source="pre-subbed">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Project Name">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">Project Name 10</a>
+                        <div class="card-subtitle">Korea • 2026 • Modern • Movie</div>
+                        <div class="card-delimiter"></div>
+                        <div class="card-stats">
+                            <div>Source: <span>Pre-Subbed</span></div>
+                            <div>Roles: <span>CM ; CD</span></div>
+                            <div>Info: <span>-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
     <button class="back-to-top" id="backToTop">↑</button>
 
     <!-- ========================================================
-         SCRIPTURI (JS)
+         SCRIPTS (JS)
          ======================================================== -->
     <script>
-        // 1. Meniu pe mobil
+        // 1. Mobile Menu
         const mobileBtn = document.getElementById('mobileBtn');
         const menuList = document.getElementById('menuList');
         const menuLinks = document.querySelectorAll('.menu-link');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        const genreBtn = document.getElementById('genreBtn');
 
         mobileBtn.addEventListener('click', () => {
             menuList.classList.toggle('active');
@@ -742,18 +1256,10 @@
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
                     menuList.classList.remove('active');
-                    dropdownMenu.classList.remove('active');
                 }
             });
         });
         
-        genreBtn.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                e.preventDefault(); 
-                dropdownMenu.classList.toggle('active');
-            }
-        });
-
         // 2. Light / Dark Mode Toggle
         const themeToggle = document.getElementById('themeToggle');
         const body = document.documentElement; 
@@ -794,7 +1300,7 @@
             });
         });
 
-        // 4. Funcționalitate Slider (Săgeți prev/next)
+        // 4. Slider Functionality (for non-history sections)
         const sliderWrappers = document.querySelectorAll('.slider-wrapper');
         
         sliderWrappers.forEach(wrapper => {
@@ -802,23 +1308,19 @@
             const prevBtn = wrapper.querySelector('.prev');
             const nextBtn = wrapper.querySelector('.next');
 
-            // Scroll la stânga
             prevBtn.addEventListener('click', () => {
                 const cardWidth = grid.querySelector('.card').offsetWidth;
-                const gap = 20; // Aceeași valoare ca gap-ul din CSS
+                const gap = 20; 
                 grid.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
             });
 
-            // Scroll la dreapta
             nextBtn.addEventListener('click', () => {
                 const cardWidth = grid.querySelector('.card').offsetWidth;
                 const gap = 20;
                 grid.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
             });
             
-            // Ascunde săgețile dacă ajungi la capăt
             grid.addEventListener('scroll', () => {
-                // Dacă suntem la început, ascunde butonul prev
                 if (grid.scrollLeft <= 0) {
                     prevBtn.style.opacity = '0.5';
                     prevBtn.style.pointerEvents = 'none';
@@ -827,7 +1329,6 @@
                     prevBtn.style.pointerEvents = 'auto';
                 }
                 
-                // Dacă suntem la final, ascunde butonul next
                 if (Math.ceil(grid.scrollLeft + grid.clientWidth) >= grid.scrollWidth) {
                     nextBtn.style.opacity = '0.5';
                     nextBtn.style.pointerEvents = 'none';
@@ -837,9 +1338,140 @@
                 }
             });
             
-            // Inițializare vizibilitate butoane
             grid.dispatchEvent(new Event('scroll'));
         });
+        
+        // 5. History Dropdown Filtering System
+        const customSelects = document.querySelectorAll('.custom-select');
+        const resetBtn = document.getElementById('resetFilters');
+        const historyItems = document.querySelectorAll('.history-item');
+        const noResultsMsg = document.getElementById('noResultsMsg');
+        
+        // Object to store currently selected filters
+        let activeFilters = {
+            role: [],
+            country: [],
+            genre: [],
+            type: [],
+            source: []
+        };
+
+        // Handle opening/closing dropdowns
+        customSelects.forEach(select => {
+            const trigger = select.querySelector('.custom-select__trigger');
+            
+            trigger.addEventListener('click', function(e) {
+                // Close all other open dropdowns first
+                customSelects.forEach(s => {
+                    if (s !== select) {
+                        s.classList.remove('open');
+                    }
+                });
+                // Toggle current dropdown
+                select.classList.toggle('open');
+                e.stopPropagation();
+            });
+            
+            // Handle option selection
+            const options = select.querySelectorAll('.custom-option');
+            const filterType = select.getAttribute('data-filter-type');
+            const badge = select.querySelector('.filter-badge');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    this.classList.toggle('selected');
+                    const value = this.getAttribute('data-value');
+                    
+                    // Update activeFilters object
+                    if (this.classList.contains('selected')) {
+                        activeFilters[filterType].push(value);
+                    } else {
+                        activeFilters[filterType] = activeFilters[filterType].filter(val => val !== value);
+                    }
+                    
+                    // Update Badge counter
+                    const count = activeFilters[filterType].length;
+                    badge.textContent = count;
+                    if (count > 0) {
+                        badge.classList.add('active');
+                    } else {
+                        badge.classList.remove('active');
+                    }
+                    
+                    applyFilters();
+                    e.stopPropagation(); // Keep dropdown open while selecting multiple
+                });
+            });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function() {
+            customSelects.forEach(select => {
+                select.classList.remove('open');
+            });
+        });
+
+        // Reset filters
+        resetBtn.addEventListener('click', () => {
+            // Remove selected class from all options
+            document.querySelectorAll('.custom-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Reset all badges
+            document.querySelectorAll('.filter-badge').forEach(badge => {
+                badge.textContent = '0';
+                badge.classList.remove('active');
+            });
+            
+            // Clear activeFilters object
+            for (let key in activeFilters) {
+                activeFilters[key] = [];
+            }
+            
+            applyFilters();
+        });
+        
+        // Apply logic: AND between categories, OR within category
+        function applyFilters() {
+            let visibleCount = 0;
+            
+            historyItems.forEach(item => {
+                // Get item data attributes
+                const itemRoles = item.getAttribute('data-role').split(','); // Allows multiple roles per item
+                const itemCountry = item.getAttribute('data-country');
+                const itemGenre = item.getAttribute('data-genre');
+                const itemType = item.getAttribute('data-type');
+                const itemSource = item.getAttribute('data-source');
+                
+                // Check if item passes all active filter categories
+                const roleMatch = activeFilters.role.length === 0 || itemRoles.some(role => activeFilters.role.includes(role));
+                const countryMatch = activeFilters.country.length === 0 || activeFilters.country.includes(itemCountry);
+                const genreMatch = activeFilters.genre.length === 0 || activeFilters.genre.includes(itemGenre);
+                const typeMatch = activeFilters.type.length === 0 || activeFilters.type.includes(itemType);
+                const sourceMatch = activeFilters.source.length === 0 || activeFilters.source.includes(itemSource);
+                
+                // If it passes ALL categories (AND logic), show it
+                if (roleMatch && countryMatch && genreMatch && typeMatch && sourceMatch) {
+                    item.style.display = 'flex';
+                    // Force a reflow for opacity transition if needed
+                    setTimeout(() => { item.style.opacity = '1'; }, 10);
+                    visibleCount++;
+                } else {
+                    item.style.opacity = '0';
+                    setTimeout(() => { item.style.display = 'none'; }, 300); // Wait for fade out
+                }
+            });
+            
+            // Show/hide "No results" message
+            setTimeout(() => {
+                if (visibleCount === 0) {
+                    noResultsMsg.style.display = 'block';
+                } else {
+                    noResultsMsg.style.display = 'none';
+                }
+            }, 300);
+        }
     </script>
 </body>
 </html>
