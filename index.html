@@ -6,23 +6,24 @@
     <title>Portofoliu Viki - dimghro</title>
     
     <style>
-        /* Setări globale de font și fundal */
+        /* Setări globale de font, fundal și dimensionare */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: #fcf9f7;
             font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif !important;
             color: #4a443f;
-        }
-
-        /* Toate elementele moștenesc fontul */
-        * {
-            font-family: inherit;
+            overflow-x: hidden;
         }
 
         /* Containerul paginii web */
         .main-wrapper {
-            max-width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background: #ffffff;
@@ -39,44 +40,85 @@
         }
 
         /* Meniul rapid - efecte hover */
+        .viki-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
         .viki-hover:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         /* Containerul flexibil pentru grila de proiecte */
         .projects-grid {
             display: flex;
             flex-wrap: wrap;
-            margin: -10px;
-            width: calc(100% + 20px);
+            gap: 20px;
+            width: 100%;
+            justify-content: flex-start;
         }
 
         /* Caseta individuală a proiectului */
         .project-card {
             display: flex;
             flex-direction: column;
-            flex: 0 0 calc(20% - 20px);
-            margin: 10px;
+            flex: 0 0 calc(20% - 16px); /* 5 carduri pe rând pe ecran mare */
             background: #ffffff;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            box-sizing: border-box;
             overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Imaginea posterului */
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Imaginea posterului cu aspect ratio fix pentru postere drama */
         .project-card img {
             display: block;
             width: 100%;
-            height: auto;
+            aspect-ratio: 2 / 3;
             object-fit: cover;
         }
 
+        /* Grupuri flexibile meniu rapid */
+        .menu-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .menu-btn {
+            flex: 1 1 200px;
+            background: linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%);
+            border: 1px solid #e5d8cd;
+            border-radius: 5px;
+            color: #86625b;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 15px;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
         /* Responsivitate pentru ecrane mici */
-        @media (max-width: 1024px) { .project-card { flex: 0 0 calc(25% - 20px); } }
-        @media (max-width: 768px) { .project-card { flex: 0 0 calc(33.333% - 20px); } }
-        @media (max-width: 500px) { .project-card { flex: 0 0 calc(50% - 20px); } }
+        @media (max-width: 1024px) {
+            .project-card { flex: 0 0 calc(25% - 15px); } /* 4 carduri */
+        }
+        @media (max-width: 768px) {
+            .project-card { flex: 0 0 calc(33.333% - 13.4px); } /* 3 carduri */
+        }
+        @media (max-width: 550px) {
+            .project-card { flex: 0 0 calc(50% - 10px); } /* 2 carduri */
+            .main-wrapper { padding: 10px; }
+        }
+        @media (max-width: 380px) {
+            .project-card { flex: 0 0 100%; } /* 1 card */
+        }
     </style>
 </head>
 <body>
@@ -96,24 +138,24 @@
     <!-- QUICK MENU SECTION -->
     <div style="background:linear-gradient(135deg, #efe2d7 0%, #fdfbf7 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:30px 15px; text-align:center; margin-bottom:40px;">
         <div style="margin-bottom:25px;">
-            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; height:50px; line-height:50px; padding:0 40px;">
+            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; padding:12px 30px;">
                 <span style="color:#86625b; font-size:18px;"><strong>QUICK MENU FOR MY HISTORY</strong></span>
             </div>
         </div>
 
-        <div style="display:flex; flex-direction:column; max-width:900px; margin:0 auto;">
-            <a class="viki-hover" href="#cm-manager" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; margin-bottom:12px; padding:15px; text-decoration:none; display:block;">CHANNEL MANAGER &amp; CO-MANAGER</a>
+        <div style="max-width:900px; margin:0 auto;">
+            <a class="menu-btn viki-hover" href="#cm-manager" style="margin-bottom:12px;">CHANNEL MANAGER &amp; CO-MANAGER</a>
             
-            <div style="display:flex; gap:10px; margin-bottom:12px;">
-                <a class="viki-hover" href="#ro-moderator" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN MODERATOR</a>
-                <a class="viki-hover" href="#ro-final-editor" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN FINAL EDITOR</a>
-                <a class="viki-hover" href="#ro-trans-editor" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN TRANSLATION EDITOR</a>
+            <div class="menu-row">
+                <a class="menu-btn viki-hover" href="#ro-moderator">ROMANIAN MODERATOR</a>
+                <a class="menu-btn viki-hover" href="#ro-final-editor">ROMANIAN FINAL EDITOR</a>
+                <a class="menu-btn viki-hover" href="#ro-trans-editor">ROMANIAN TRANSLATION EDITOR</a>
             </div>
 
-            <div style="display:flex; gap:10px;">
-                <a class="viki-hover" href="#ro-sub-only" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN SUBTITLER ONLY</a>
-                <a class="viki-hover" href="#cover-en" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">COVER DESIGNER FOR EN</a>
-                <a class="viki-hover" href="#cover-ol" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">COVER DESIGNER FOR OL</a>
+            <div class="menu-row" style="margin-bottom:0;">
+                <a class="menu-btn viki-hover" href="#ro-sub-only">ROMANIAN SUBTITLER ONLY</a>
+                <a class="menu-btn viki-hover" href="#cover-en">COVER DESIGNER FOR EN</a>
+                <a class="menu-btn viki-hover" href="#cover-ol">COVER DESIGNER FOR OL</a>
             </div>
         </div>
 
@@ -126,23 +168,23 @@
     <!-- ============================================== -->
     <!-- SECȚIUNEA: CHANNEL MANAGER & CO-MANAGER -->
     <!-- ============================================== -->
-    <div id="cm-manager" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 2%; text-align:center; width:100%; margin-bottom:40px;">
+    <div id="cm-manager" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 20px; text-align:center; width:100%; margin-bottom:40px;">
         
         <div style="margin-bottom:28px;">
-            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; height:50px; line-height:50px; padding:0 40px;">
+            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; padding:12px 30px;">
                 <span style="color:#86625b; font-size:19px;"><strong>CHANNEL MANAGER &amp; CO-MANAGER</strong></span>
             </div>
         </div>
 
         <div class="projects-grid">
             
-            <!-- MODEL PROIECT -->
+            <!-- MODEL PROIECT 1 -->
             <div class="project-card">
                 <a href="#" target="_blank">
                     <img alt="Poster" src="https://1.vikiplatform.com/c/41143c/54bc42bb64.jpg" />
                 </a>
                 <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
-                    <div class="project-title" title="Titlul Proiectului" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
+                    <div class="project-title" title="The Seven Relics of Ill Omen" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
                         <a href="#" target="_blank">The Seven Relics of Ill Omen</a>
                     </div>
                     <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2026 • Series • PreSubbed</div>
@@ -158,7 +200,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /MODEL PROIECT -->
 
             <!-- MODEL PROIECT 2 -->
             <div class="project-card">
@@ -182,9 +223,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /MODEL PROIECT 2 -->
-
-            <!-- ADAUGĂ RESTUL PROIECTELOR AICI -->
 
         </div>
     </div>
@@ -193,10 +231,10 @@
     <!-- ============================================== -->
     <!-- SECȚIUNEA: ROMANIAN MODERATOR -->
     <!-- ============================================== -->
-    <div id="ro-moderator" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 2%; text-align:center; width:100%; margin-bottom:40px;">
+    <div id="ro-moderator" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 20px; text-align:center; width:100%; margin-bottom:40px;">
         
         <div style="margin-bottom:15px;">
-            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; height:50px; line-height:50px; padding:0 40px;">
+            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; padding:12px 30px;">
                 <span style="color:#86625b; font-size:19px;"><strong>ROMANIAN MODERATOR</strong></span>
             </div>
         </div>
@@ -207,7 +245,7 @@
 
         <div class="projects-grid">
             
-            <!-- MODEL PROIECT PENTRU MODERATOR -->
+            <!-- MODEL PROIECT MODERATOR -->
             <div class="project-card">
                 <a href="#" target="_blank">
                     <img alt="Poster" src="https://1.vikiplatform.com/c/36780c/d3c9f19da3.jpg" />
@@ -229,9 +267,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /MODEL PROIECT -->
-
-            <!-- ADAUGĂ RESTUL PROIECTELOR AICI -->
 
         </div>
     </div>
