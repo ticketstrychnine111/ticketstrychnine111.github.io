@@ -12,8 +12,48 @@
     
     <style>
         /* ========================================================
-           1. SETĂRI GLOBALE
+           1. SETĂRI GLOBALE ȘI VARIABILE (LIGHT/DARK MODE)
            ======================================================== */
+        :root {
+            /* Culori Light Mode */
+            --bg-body: #ffffff;
+            --text-main: #333333;
+            --text-muted: #777777;
+            --text-stats: #444444;
+            --bg-nav: #ffffff;
+            --nav-shadow: rgba(0, 0, 0, 0.08);
+            --bg-card: #ffffff;
+            --card-shadow: rgba(0, 0, 0, 0.06);
+            --card-hover-shadow: rgba(0, 0, 0, 0.12);
+            --bg-slots: linear-gradient(135deg, #ebdcf9 0%, #dcf1fc 100%);
+            --bg-ongoing: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --title-bg: linear-gradient(to right, #fcfaf8, #f3e9df);
+            --title-border: #e5d8cd;
+            --title-text: #7a5c58;
+            --progress-bg: #eeeeee;
+            --link-hover: #076ac9;
+        }
+
+        [data-theme="dark"] {
+            /* Culori Dark Mode */
+            --bg-body: #121212;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --text-stats: #cccccc;
+            --bg-nav: #1e1e1e;
+            --nav-shadow: rgba(255, 255, 255, 0.05);
+            --bg-card: #1e1e1e;
+            --card-shadow: rgba(0, 0, 0, 0.5);
+            --card-hover-shadow: rgba(0, 0, 0, 0.8);
+            --bg-slots: linear-gradient(135deg, #2a1b38 0%, #1b2a38 100%);
+            --bg-ongoing: linear-gradient(135deg, #222222 0%, #2a2a2a 100%);
+            --title-bg: linear-gradient(to right, #2a2420, #382c22);
+            --title-border: #4a3a30;
+            --title-text: #d4b5a8;
+            --progress-bg: #333333;
+            --link-hover: #66b2ff;
+        }
+
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -21,12 +61,17 @@
         }
 
         body {
-            /* Setează Nunito ca font global */
             font-family: 'Nunito', sans-serif;
-            color: #333333;
-            background-color: #ffffff;
+            color: var(--text-main);
+            background-color: var(--bg-body);
             overflow-x: hidden;
             scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         /* ========================================================
@@ -36,10 +81,14 @@
             position: sticky;
             top: 0;
             width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            background-color: var(--bg-nav);
+            box-shadow: 0 2px 10px var(--nav-shadow);
             z-index: 1000;
             padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .menu-list {
@@ -51,20 +100,33 @@
             gap: 8px 20px;
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .menu-list li a {
             display: block;
             padding: 10px 5px;
-            color: #555555;
-            text-decoration: none;
+            color: var(--text-muted);
             font-size: 13px;
             font-weight: bold;
             transition: color 0.2s ease;
         }
 
         .menu-list li a:hover {
-            color: #076ac9;
+            color: var(--link-hover);
+        }
+
+        /* Buton Hamburger (Ascuns pe desktop) */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 10px;
+            font-family: inherit;
         }
 
         /* Dropdown (Submeniu) */
@@ -75,11 +137,11 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: #ffffff;
+            background-color: var(--bg-nav);
             min-width: 160px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 16px var(--nav-shadow);
             border-radius: 5px;
-            border: 1px solid #eeeeee;
+            border: 1px solid var(--title-border);
             z-index: 1001;
             top: 100%;
             left: 50%;
@@ -89,7 +151,7 @@
         .dropdown-content a {
             padding: 12px 16px !important;
             text-align: center;
-            border-bottom: 1px solid #f5f5f5;
+            border-bottom: 1px solid var(--progress-bg);
         }
 
         .dropdown-content a:last-child {
@@ -100,43 +162,56 @@
             display: block;
         }
 
+        /* Buton Light/Dark Mode */
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--title-border);
+            border-radius: 20px;
+            padding: 5px 12px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--progress-bg);
+        }
+
         /* ========================================================
            3. STRUCTURA SECȚIUNILOR (CONTAINERE & TITLURI)
            ======================================================== */
         .section-container {
             width: 100%;
             padding: 50px 20px;
+            transition: background 0.3s ease;
         }
 
-        .bg-slots {
-            background: linear-gradient(135deg, #ebdcf9 0%, #dcf1fc 100%);
-        }
-
-        .bg-ongoing {
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-        }
+        .bg-slots { background: var(--bg-slots); }
+        .bg-ongoing { background: var(--bg-ongoing); }
 
         .section-header {
             text-align: center;
             margin-bottom: 40px;
         }
 
-        /* Ajustare titlu pentru a avea aceeași lățime peste tot */
         .section-title {
             display: inline-flex;
             justify-content: center;
             align-items: center;
             width: 350px; 
-            background: linear-gradient(to right, #fcfaf8, #f3e9df);
-            border: 1px solid #e5d8cd;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            background: var(--title-bg);
+            border: 1px solid var(--title-border);
+            box-shadow: 0 4px 10px var(--nav-shadow);
             padding: 12px 20px;
             border-radius: 4px;
-            color: #7a5c58;
+            color: var(--title-text);
             font-size: 18px;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
+            transition: all 0.3s ease;
         }
 
         /* ========================================================
@@ -150,31 +225,27 @@
             margin: 0 auto;
         }
 
-        /* Transformarea cardului în link activ pe toată suprafața */
         .card {
-            background: #ffffff;
+            background: var(--bg-card);
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 15px var(--card-shadow);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none; 
-            color: inherit; 
-            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 25px var(--card-hover-shadow);
         }
 
         .card-image {
             width: 100%;
             background-color: #ffb8b8;
+            display: block;
         }
 
-        /* Ajustare imagine pentru a se afișa corect nativ, fără pierdere de calitate */
         .card-image img {
             width: 100%;
             height: auto;
@@ -191,22 +262,27 @@
         .card-title {
             font-size: 14px;
             font-weight: bold;
-            color: #222222;
+            color: var(--text-main);
             margin-bottom: 4px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: block; 
+        }
+        
+        .card-title:hover {
+             color: var(--link-hover);
         }
 
         .card-subtitle {
             font-size: 11px;
-            color: #777777;
+            color: var(--text-muted);
             margin-bottom: 15px;
         }
 
         .card-stats {
             font-size: 11px;
-            color: #444444;
+            color: var(--text-stats);
             line-height: 1.6;
             margin-bottom: 8px;
             flex-grow: 1;
@@ -214,12 +290,13 @@
 
         .card-stats span {
             font-weight: bold;
+            color: var(--text-main);
         }
 
         .progress-container {
             width: 100%;
             height: 4px;
-            background-color: #eeeeee;
+            background-color: var(--progress-bg);
             border-radius: 2px;
             overflow: hidden;
             margin-top: auto;
@@ -232,7 +309,42 @@
         }
 
         /* ========================================================
-           5. RESPONSIVITATE (ADAPTARE ECRANE)
+           5. BUTON BACK TO TOP
+           ======================================================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--title-border);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+            z-index: 999;
+            border: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ========================================================
+           6. RESPONSIVITATE (ADAPTARE ECRANE & MENIU MOBIL)
            ======================================================== */
         @media (max-width: 1200px) {
             .cards-grid { grid-template-columns: repeat(4, 1fr); }
@@ -240,6 +352,50 @@
         @media (max-width: 900px) {
             .cards-grid { grid-template-columns: repeat(3, 1fr); }
         }
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block; 
+            }
+            .menu-list {
+                display: none; 
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: var(--bg-nav);
+                box-shadow: 0 8px 16px var(--nav-shadow);
+                padding: 20px 0;
+            }
+            
+            .menu-list.active {
+                display: grid;
+                grid-template-columns: 1fr 1fr; 
+                gap: 15px 10px;
+                padding: 20px;
+            }
+
+            .menu-list li {
+                width: 100%;
+                text-align: left;
+            }
+            
+            .dropdown-content {
+                position: static; 
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                padding-left: 15px;
+                transform: none;
+            }
+            .dropdown:hover .dropdown-content {
+                display: none; 
+            }
+            .dropdown.active .dropdown-content {
+                 display: block;
+            }
+        }
+
         @media (max-width: 650px) {
             .cards-grid { grid-template-columns: repeat(2, 1fr); }
             .section-container { padding: 30px 10px; }
@@ -247,6 +403,7 @@
         }
         @media (max-width: 400px) {
             .cards-grid { grid-template-columns: 1fr; }
+            .menu-list.active { grid-template-columns: 1fr; } 
         }
     </style>
 </head>
@@ -256,25 +413,31 @@
          MENIU FIX
          ======================================================== -->
     <nav class="main-nav">
-        <ul class="menu-list">
-            <li><a href="#slots">🧮 Slots Status</a></li>
-            <li><a href="#ongoing">🔤 Ongoing Pre-Subbed</a></li>
-            <li><a href="#cm">💼 Channel Manager</a></li>
-            <li><a href="#ro-mod">👔 RO Moderator</a></li>
-            <li><a href="#ro-final">🔏 RO Final Editor</a></li>
-            <li><a href="#ro-trans">📝 RO Translation Editor</a></li>
-            <li><a href="#ro-sub">🆎 RO Subtitler</a></li>
-            <li><a href="#cover">🎨 Cover Designer</a></li>
+        <!-- Buton Meniu Mobil -->
+        <button class="mobile-menu-btn" id="mobileBtn">☰ MENU</button>
+        
+        <ul class="menu-list" id="menuList">
+            <li><a href="#slots" class="menu-link">🧮 Slots Status</a></li>
+            <li><a href="#ongoing" class="menu-link">🔤 Ongoing Pre-Subbed</a></li>
+            <li><a href="#cm" class="menu-link">💼 Channel Manager</a></li>
+            <li><a href="#ro-mod" class="menu-link">👔 RO Moderator</a></li>
+            <li><a href="#ro-final" class="menu-link">🔏 RO Final Editor</a></li>
+            <li><a href="#ro-trans" class="menu-link">📝 RO Translation Editor</a></li>
+            <li><a href="#ro-sub" class="menu-link">🆎 RO Subtitler</a></li>
+            <li><a href="#cover" class="menu-link">🎨 Cover Designer</a></li>
             
-            <li class="dropdown">
-                <a href="#genre">📔 By Genre ▾</a>
+            <li class="dropdown" id="dropdownMenu">
+                <a href="#genre" id="genreBtn">📔 By Genre ▾</a>
                 <div class="dropdown-content">
-                    <a href="#costume-fantasy">Costume/Fantasy</a>
-                    <a href="#bl">BL</a>
-                    <a href="#animations">Animations</a>
+                    <a href="#costume-fantasy" class="menu-link">Costume/Fantasy</a>
+                    <a href="#bl" class="menu-link">BL</a>
+                    <a href="#animations" class="menu-link">Animations</a>
                 </div>
             </li>
         </ul>
+
+        <!-- Buton Light/Dark Mode -->
+        <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
     </nav>
 
 
@@ -290,12 +453,12 @@
         <div class="cards-grid">
             
             <!-- CARD MODEL 1 -->
-            <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card">
-                <div class="card-image">
+            <div class="card">
+                <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card-image">
                     <img src="https://1.vikiplatform.com/c/41480c/08d79f8706.jpg" alt="Pearl in Red">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">Pearl in Red</div>
+                    <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card-title">Pearl in Red</a>
                     <div class="card-subtitle">102 episodes • Korea • 2026</div>
                     <div class="card-stats">
                         <div>Editor: <span>anda64</span></div>
@@ -306,15 +469,15 @@
                         <div class="progress-fill" style="width: 74%;"></div>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- CARD MODEL 2 -->
-            <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card">
-                <div class="card-image">
+            <div class="card">
+                <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card-image">
                     <img src="https://1.vikiplatform.com/c/41519c/799615ed6f.jpg" alt="Veil of Shadows">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">Veil of Shadows</div>
+                    <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card-title">Veil of Shadows</a>
                     <div class="card-subtitle">29 episodes • China • 2026</div>
                     <div class="card-stats">
                         <div>Editor: <span>dimghro</span></div>
@@ -325,15 +488,15 @@
                         <div class="progress-fill" style="width: 75%;"></div>
                     </div>
                 </div>
-            </a>
+            </div>
 
             <!-- CARD MODEL 3 (Free Slot) -->
-            <a href="#" class="card">
-                <div class="card-image">
+            <div class="card">
+                <a href="#" class="card-image">
                     <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">Free Slot</div>
+                    <a href="#" class="card-title">Free Slot</a>
                     <div class="card-subtitle">00 episodes</div>
                     <div class="card-stats">
                         <div>Editor: <span>#N/A</span></div>
@@ -344,15 +507,15 @@
                         <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                 </div>
-            </a>
-
+            </div>
+            
             <!-- CARD MODEL 4 (Free Slot) -->
-            <a href="#" class="card">
-                <div class="card-image">
+            <div class="card">
+                <a href="#" class="card-image">
                     <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">Free Slot</div>
+                    <a href="#" class="card-title">Free Slot</a>
                     <div class="card-subtitle">00 episodes</div>
                     <div class="card-stats">
                         <div>Editor: <span>#N/A</span></div>
@@ -363,15 +526,15 @@
                         <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                 </div>
-            </a>
-
+            </div>
+            
             <!-- CARD MODEL 5 (Free Slot) -->
-            <a href="#" class="card">
-                <div class="card-image">
+            <div class="card">
+                <a href="#" class="card-image">
                     <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">Free Slot</div>
+                    <a href="#" class="card-title">Free Slot</a>
                     <div class="card-subtitle">00 episodes</div>
                     <div class="card-stats">
                         <div>Editor: <span>#N/A</span></div>
@@ -382,7 +545,7 @@
                         <div class="progress-fill" style="width: 0%;"></div>
                     </div>
                 </div>
-            </a>
+            </div>
 
         </div>
     </section>
@@ -400,12 +563,12 @@
         <div class="cards-grid">
             
             <!-- CARD MODEL -->
-            <a href="#" target="_blank" class="card">
-                <div class="card-image">
+            <div class="card">
+                <a href="#" target="_blank" class="card-image">
                     <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">None</div>
+                    <a href="#" target="_blank" class="card-title">None</a>
                     <div class="card-subtitle">00 episodes • Country • 2026</div>
                     <div class="card-stats">
                         <div>Editor: <span>Name</span></div>
@@ -416,15 +579,53 @@
                         <div class="progress-fill" style="width: 25%;"></div>
                     </div>
                 </div>
-            </a>
+            </div>
+            
+            <!-- CARD MODEL -->
+            <div class="card">
+                <a href="#" target="_blank" class="card-image">
+                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                </a>
+                <div class="card-content">
+                    <a href="#" target="_blank" class="card-title">None</a>
+                    <div class="card-subtitle">00 episodes • Country • 2026</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>Name</span></div>
+                        <div>English CE: <span>0 / 40</span></div>
+                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 25%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CARD MODEL -->
+            <div class="card">
+                <a href="#" target="_blank" class="card-image">
+                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                </a>
+                <div class="card-content">
+                    <a href="#" target="_blank" class="card-title">None</a>
+                    <div class="card-subtitle">00 episodes • Country • 2026</div>
+                    <div class="card-stats">
+                        <div>Editor: <span>Name</span></div>
+                        <div>English CE: <span>0 / 40</span></div>
+                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-fill" style="width: 25%;"></div>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- CARD MODEL -->
-            <a href="#" target="_blank" class="card">
-                <div class="card-image">
+            <!-- CARD MODEL -->
+            <div class="card">
+                <a href="#" target="_blank" class="card-image">
                     <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">None</div>
+                    <a href="#" target="_blank" class="card-title">None</a>
                     <div class="card-subtitle">00 episodes • Country • 2026</div>
                     <div class="card-stats">
                         <div>Editor: <span>Name</span></div>
@@ -435,15 +636,15 @@
                         <div class="progress-fill" style="width: 25%;"></div>
                     </div>
                 </div>
-            </a>
-
-                        <!-- CARD MODEL -->
-            <a href="#" target="_blank" class="card">
-                <div class="card-image">
+            </div>
+            
+            <!-- CARD MODEL -->
+            <div class="card">
+                <a href="#" target="_blank" class="card-image">
                     <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </div>
+                </a>
                 <div class="card-content">
-                    <div class="card-title">None</div>
+                    <a href="#" target="_blank" class="card-title">None</a>
                     <div class="card-subtitle">00 episodes • Country • 2026</div>
                     <div class="card-stats">
                         <div>Editor: <span>Name</span></div>
@@ -454,47 +655,87 @@
                         <div class="progress-fill" style="width: 25%;"></div>
                     </div>
                 </div>
-            </a>
-
-                        <!-- CARD MODEL -->
-            <a href="#" target="_blank" class="card">
-                <div class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </div>
-                <div class="card-content">
-                    <div class="card-title">None</div>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
-                    </div>
-                </div>
-            </a>
-
-                        <!-- CARD MODEL -->
-            <a href="#" target="_blank" class="card">
-                <div class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </div>
-                <div class="card-content">
-                    <div class="card-title">None</div>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
-                    </div>
-                </div>
-            </a>
+            </div>
         </div>
     </section>
 
+    <!-- Buton Back to Top -->
+    <button class="back-to-top" id="backToTop">↑</button>
+
+    <!-- ========================================================
+         SCRIPTURI (JS)
+         ======================================================== -->
+    <script>
+        // 1. Meniu pe mobil
+        const mobileBtn = document.getElementById('mobileBtn');
+        const menuList = document.getElementById('menuList');
+        const menuLinks = document.querySelectorAll('.menu-link');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const genreBtn = document.getElementById('genreBtn');
+
+        // Toggle meniu la click pe butonul MENU
+        mobileBtn.addEventListener('click', () => {
+            menuList.classList.toggle('active');
+        });
+
+        // Închide meniul după ce se dă click pe un link simplu
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    menuList.classList.remove('active');
+                    dropdownMenu.classList.remove('active'); // Închide și dropdown-ul dacă era deschis
+                }
+            });
+        });
+        
+        // Deschide/închide submeniul 'By Genre' pe mobil
+        genreBtn.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault(); // Previne saltul la href pe mobil pt a deschide meniul
+                dropdownMenu.classList.toggle('active');
+            }
+        });
+
+        // 2. Light / Dark Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.documentElement; // Aplica pe <html> e mai sigur cu variabile CSS
+
+        // Verificare preferință salvată în browser
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️ Light';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙 Dark';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️ Light';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // 3. Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 </html>
