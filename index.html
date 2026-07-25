@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofoliu Viki - dimghro</title>
+    
+    <style>
+        /* Setări globale de font și fundal */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fcf9f7;
+            font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif !important;
+            color: #4a443f;
+        }
+
+        /* Toate elementele moștenesc fontul */
+        * {
+            font-family: inherit;
+        }
+
+        /* Containerul paginii web */
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        /* Protejarea linkurilor din titlurile proiectelor */
+        .project-title a {
+            color: #076ac9 !important;
+            text-decoration: none !important;
+        }
+        .project-title a:hover {
+            color: #034b91 !important;
+        }
+
+        /* Meniul rapid - efecte hover */
+        .viki-hover:hover {
+            transform: scale(1.02);
+        }
+
+        /* Containerul flexibil pentru grila de proiecte */
+        .projects-grid {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+            width: calc(100% + 20px);
+        }
+
+        /* Caseta individuală a proiectului */
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 calc(20% - 20px);
+            margin: 10px;
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Imaginea posterului */
+        .project-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* Responsivitate pentru ecrane mici */
+        @media (max-width: 1024px) { .project-card { flex: 0 0 calc(25% - 20px); } }
+        @media (max-width: 768px) { .project-card { flex: 0 0 calc(33.333% - 20px); } }
+        @media (max-width: 500px) { .project-card { flex: 0 0 calc(50% - 20px); } }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+
+    <!-- HEADER & WELCOME SECTION -->
+    <div style="text-align:center; margin-bottom:40px;">
+        <img alt="Banner" src="https://s7.gifyu.com/images/SJUdE.gif" style="max-width:100%; height:auto; border-radius:8px;" />
+        <div style="margin-top:-60px; position:relative; z-index:10;">
+            <img alt="Avatar" src="https://1.vikiplatform.com/u/40835752u/Aa3zZVahDI.png" style="border-radius:10px; height:150px; width:130px; object-fit:cover; border:3px solid #ffffff; box-shadow:0 10px 25px rgba(0,0,0,0.1);" />
+        </div>
+        <h1 style="color:#5a6d5a; margin-top:15px; font-size:28px;">Welcome to my portfolio</h1>
+        <div style="color:#bc8f8f; font-size:12px; font-weight:bold; letter-spacing:3px; text-transform:uppercase;">Native Romanian Speaker</div>
+    </div>
+
+    <!-- QUICK MENU SECTION -->
+    <div style="background:linear-gradient(135deg, #efe2d7 0%, #fdfbf7 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:30px 15px; text-align:center; margin-bottom:40px;">
+        <div style="margin-bottom:25px;">
+            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; height:50px; line-height:50px; padding:0 40px;">
+                <span style="color:#86625b; font-size:18px;"><strong>QUICK MENU FOR MY HISTORY</strong></span>
+            </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; max-width:900px; margin:0 auto;">
+            <a class="viki-hover" href="#cm-manager" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; margin-bottom:12px; padding:15px; text-decoration:none; display:block;">CHANNEL MANAGER &amp; CO-MANAGER</a>
+            
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+                <a class="viki-hover" href="#ro-moderator" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN MODERATOR</a>
+                <a class="viki-hover" href="#ro-final-editor" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN FINAL EDITOR</a>
+                <a class="viki-hover" href="#ro-trans-editor" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN TRANSLATION EDITOR</a>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <a class="viki-hover" href="#ro-sub-only" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">ROMANIAN SUBTITLER ONLY</a>
+                <a class="viki-hover" href="#cover-en" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">COVER DESIGNER FOR EN</a>
+                <a class="viki-hover" href="#cover-ol" style="flex:1; background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border:1px solid #e5d8cd; border-radius:5px; color:#86625b; font-size:13px; font-weight:bold; padding:15px; text-decoration:none;">COVER DESIGNER FOR OL</a>
+            </div>
+        </div>
+
+        <div style="background:rgba(255, 255, 255, 0.5); border:1px dashed #cba8a2; border-radius:5px; color:#86625b; font-size:12px; line-height:1.6; margin:20px auto 0 auto; max-width:900px; padding:15px;">
+            <em>Please note that I am rebuilding my history here on GitHub to overcome the Viki character limits. More projects will be added soon.</em>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- SECȚIUNEA: CHANNEL MANAGER & CO-MANAGER -->
+    <!-- ============================================== -->
+    <div id="cm-manager" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 2%; text-align:center; width:100%; margin-bottom:40px;">
+        
+        <div style="margin-bottom:28px;">
+            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; height:50px; line-height:50px; padding:0 40px;">
+                <span style="color:#86625b; font-size:19px;"><strong>CHANNEL MANAGER &amp; CO-MANAGER</strong></span>
+            </div>
+        </div>
+
+        <div class="projects-grid">
+            
+            <!-- MODEL PROIECT -->
+            <div class="project-card">
+                <a href="#" target="_blank">
+                    <img alt="Poster" src="https://1.vikiplatform.com/c/41143c/54bc42bb64.jpg" />
+                </a>
+                <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
+                    <div class="project-title" title="Titlul Proiectului" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
+                        <a href="#" target="_blank">The Seven Relics of Ill Omen</a>
+                    </div>
+                    <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2026 • Series • PreSubbed</div>
+                    
+                    <div style="background:#3381ff; border-radius:5px; height:6px; overflow:hidden; width:100%; margin-bottom:10px;"></div>
+                    <div style="flex-grow:1;"></div>
+
+                    <div style="font-size:11px; color:#555555; margin-bottom:6px;">
+                        <strong>My Roles:</strong> CM • Editor
+                    </div>
+                    <div style="font-size:11px; color:#777777;">
+                        <strong>Other Info:</strong> -
+                    </div>
+                </div>
+            </div>
+            <!-- /MODEL PROIECT -->
+
+            <!-- MODEL PROIECT 2 -->
+            <div class="project-card">
+                <a href="#" target="_blank">
+                    <img alt="Poster" src="https://1.vikiplatform.com/c/40980c/1722655531.jpg" />
+                </a>
+                <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
+                    <div class="project-title" title="Ski Into Love" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
+                        <a href="#" target="_blank">Ski Into Love</a>
+                    </div>
+                    <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2026 • Series • PreSubbed</div>
+                    
+                    <div style="background:#3381ff; border-radius:5px; height:6px; overflow:hidden; width:100%; margin-bottom:10px;"></div>
+                    <div style="flex-grow:1;"></div>
+
+                    <div style="font-size:11px; color:#555555; margin-bottom:6px;">
+                        <strong>My Roles:</strong> CM
+                    </div>
+                    <div style="font-size:11px; color:#777777;">
+                        <strong>Other Info:</strong> -
+                    </div>
+                </div>
+            </div>
+            <!-- /MODEL PROIECT 2 -->
+
+            <!-- ADAUGĂ RESTUL PROIECTELOR AICI -->
+
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- SECȚIUNEA: ROMANIAN MODERATOR -->
+    <!-- ============================================== -->
+    <div id="ro-moderator" style="background:linear-gradient(135deg, #e3f1ff 0%, #fdf2f2 100%); border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.05); padding:32px 2%; text-align:center; width:100%; margin-bottom:40px;">
+        
+        <div style="margin-bottom:15px;">
+            <div style="background:radial-gradient(circle, #fefdfb 50%, #ece4da 100%); border-radius:5px; border:1px solid #e5d8cd; display:inline-block; height:50px; line-height:50px; padding:0 40px;">
+                <span style="color:#86625b; font-size:19px;"><strong>ROMANIAN MODERATOR</strong></span>
+            </div>
+        </div>
+
+        <div style="background:rgba(255, 255, 255, 0.5); border:1px dashed #cba8a2; border-radius:5px; color:#86625b; font-size:11px; line-height:1.5; margin:0 auto 28px auto; max-width:80%; padding:10px 15px;">
+            <em><strong>* Note:</strong> Please note that I'm always a Subtitler for my moderated channels, and I was also a Final Editor for many of them.</em>
+        </div>
+
+        <div class="projects-grid">
+            
+            <!-- MODEL PROIECT PENTRU MODERATOR -->
+            <div class="project-card">
+                <a href="#" target="_blank">
+                    <img alt="Poster" src="https://1.vikiplatform.com/c/36780c/d3c9f19da3.jpg" />
+                </a>
+                <div style="display:flex; flex-direction:column; flex-grow:1; padding:12px; text-align:left;">
+                    <div class="project-title" title="Put Your Head on My Shoulder" style="font-size:12px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:2px;">
+                        <a href="#" target="_blank">Put Your Head on My Shoulder</a>
+                    </div>
+                    <div style="color:#777777; font-size:11px; margin-bottom:6px;">China • 2019 • Series</div>
+                    
+                    <div style="background:#3381ff; border-radius:5px; height:6px; overflow:hidden; width:100%; margin-bottom:10px;"></div>
+                    <div style="flex-grow:1;"></div>
+
+                    <div style="font-size:11px; color:#555555; margin-bottom:6px;">
+                        <strong>My Roles:</strong> Moderator • Final Editor
+                    </div>
+                    <div style="font-size:11px; color:#777777;">
+                        <strong>Other Info:</strong> -
+                    </div>
+                </div>
+            </div>
+            <!-- /MODEL PROIECT -->
+
+            <!-- ADAUGĂ RESTUL PROIECTELOR AICI -->
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
