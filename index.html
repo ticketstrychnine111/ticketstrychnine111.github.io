@@ -15,7 +15,6 @@
            1. SETĂRI GLOBALE ȘI VARIABILE (LIGHT/DARK MODE)
            ======================================================== */
         :root {
-            /* Culori Light Mode */
             --bg-body: #ffffff;
             --text-main: #333333;
             --text-muted: #777777;
@@ -32,10 +31,11 @@
             --title-text: #7a5c58;
             --progress-bg: #eeeeee;
             --link-hover: #076ac9;
+            --slider-btn-bg: rgba(255, 255, 255, 0.8);
+            --slider-btn-color: #333333;
         }
 
         [data-theme="dark"] {
-            /* Culori Dark Mode */
             --bg-body: #121212;
             --text-main: #e0e0e0;
             --text-muted: #a0a0a0;
@@ -52,6 +52,8 @@
             --title-text: #d4b5a8;
             --progress-bg: #333333;
             --link-hover: #66b2ff;
+            --slider-btn-bg: rgba(30, 30, 30, 0.8);
+            --slider-btn-color: #e0e0e0;
         }
 
         *, *::before, *::after {
@@ -116,7 +118,6 @@
             color: var(--link-hover);
         }
 
-        /* Buton Hamburger (Ascuns pe desktop) */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -129,7 +130,6 @@
             font-family: inherit;
         }
 
-        /* Dropdown (Submeniu) */
         .dropdown {
             position: relative;
         }
@@ -162,7 +162,6 @@
             display: block;
         }
 
-        /* Buton Light/Dark Mode */
         .theme-toggle {
             background: none;
             border: 1px solid var(--title-border);
@@ -184,8 +183,9 @@
            ======================================================== */
         .section-container {
             width: 100%;
-            padding: 50px 20px;
+            padding: 50px 0; /* Padding lateral scos pt slider */
             transition: background 0.3s ease;
+            position: relative;
         }
 
         .bg-slots { background: var(--bg-slots); }
@@ -194,6 +194,7 @@
         .section-header {
             text-align: center;
             margin-bottom: 40px;
+            padding: 0 20px;
         }
 
         .section-title {
@@ -215,14 +216,31 @@
         }
 
         /* ========================================================
-           4. GRILA DE PROIECTE (CARDURI)
+           4. SLIDER & GRILA DE PROIECTE
            ======================================================== */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-            max-width: 1300px;
+        .slider-wrapper {
+            position: relative;
+            max-width: 1340px;
             margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .cards-grid {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px;
+            /* Ascunde scrollbar pe Firefox & IE */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+
+        /* Ascunde scrollbar pe Chrome/Safari */
+        .cards-grid::-webkit-scrollbar {
+            display: none;
         }
 
         .card {
@@ -233,6 +251,10 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+            
+            /* Setări implicite slider (Desktop) */
+            flex: 0 0 calc(20% - 16px);
+            scroll-snap-align: start;
         }
 
         .card:hover {
@@ -308,6 +330,44 @@
             border-radius: 2px;
         }
 
+        /* Butoane Slider */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--slider-btn-bg);
+            color: var(--slider-btn-color);
+            border: 1px solid var(--title-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .slider-btn:hover {
+            background: var(--progress-bg);
+        }
+
+        .slider-btn.prev {
+            left: 5px;
+        }
+
+        .slider-btn.next {
+            right: 5px;
+        }
+        
+        /* Ascunde butoanele pe Desktop dacă nu e nevoie de slider */
+        @media (min-width: 1300px) {
+            .slider-btn { display: none; }
+        }
+
         /* ========================================================
            5. BUTON BACK TO TOP
            ======================================================== */
@@ -347,15 +407,14 @@
            6. RESPONSIVITATE (ADAPTARE ECRANE & MENIU MOBIL)
            ======================================================== */
         @media (max-width: 1200px) {
-            .cards-grid { grid-template-columns: repeat(4, 1fr); }
+            .card { flex: 0 0 calc(25% - 15px); }
         }
         @media (max-width: 900px) {
-            .cards-grid { grid-template-columns: repeat(3, 1fr); }
+            .card { flex: 0 0 calc(33.333% - 13.33px); }
         }
+        
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block; 
-            }
+            .mobile-menu-btn { display: block; }
             .menu-list {
                 display: none; 
                 flex-direction: column;
@@ -367,19 +426,13 @@
                 box-shadow: 0 8px 16px var(--nav-shadow);
                 padding: 20px 0;
             }
-            
             .menu-list.active {
                 display: grid;
                 grid-template-columns: 1fr 1fr; 
                 gap: 15px 10px;
                 padding: 20px;
             }
-
-            .menu-list li {
-                width: 100%;
-                text-align: left;
-            }
-            
+            .menu-list li { width: 100%; text-align: left; }
             .dropdown-content {
                 position: static; 
                 box-shadow: none;
@@ -388,21 +441,20 @@
                 padding-left: 15px;
                 transform: none;
             }
-            .dropdown:hover .dropdown-content {
-                display: none; 
-            }
-            .dropdown.active .dropdown-content {
-                 display: block;
-            }
+            .dropdown:hover .dropdown-content { display: none; }
+            .dropdown.active .dropdown-content { display: block; }
+            
+            /* Slider Mobile */
+            .slider-btn { display: flex; } /* Arată butoanele mereu pe tabletă/mobil */
         }
 
         @media (max-width: 650px) {
-            .cards-grid { grid-template-columns: repeat(2, 1fr); }
-            .section-container { padding: 30px 10px; }
+            .section-header { padding: 0 10px; }
             .section-title { width: 100%; font-size: 16px; }
+            /* Arată 1 card întreg și 15% din următorul */
+            .card { flex: 0 0 85%; } 
         }
         @media (max-width: 400px) {
-            .cards-grid { grid-template-columns: 1fr; }
             .menu-list.active { grid-template-columns: 1fr; } 
         }
     </style>
@@ -450,103 +502,107 @@
             <div class="section-title">MY SLOTS</div>
         </div>
 
-        <div class="cards-grid">
-            
-            <!-- CARD MODEL 1 -->
-            <div class="card">
-                <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card-image">
-                    <img src="https://1.vikiplatform.com/c/41480c/08d79f8706.jpg" alt="Pearl in Red">
-                </a>
-                <div class="card-content">
-                    <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card-title">Pearl in Red</a>
-                    <div class="card-subtitle">102 episodes • Korea • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>anda64</span></div>
-                        <div>English CE: <span>76 / 102</span></div>
-                        <div>RO Ongoing: <span>76 / 102 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 74%;"></div>
+        <div class="slider-wrapper">
+            <button class="slider-btn prev" aria-label="Previous">❮</button>
+            <div class="cards-grid">
+                
+                <!-- CARD MODEL 1 -->
+                <div class="card">
+                    <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card-image">
+                        <img src="https://1.vikiplatform.com/c/41480c/08d79f8706.jpg" alt="Pearl in Red">
+                    </a>
+                    <div class="card-content">
+                        <a href="https://www.viki.com/tv/41480c-pearl-in-red" target="_blank" class="card-title">Pearl in Red</a>
+                        <div class="card-subtitle">102 episodes • Korea • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>anda64</span></div>
+                            <div>English CE: <span>76 / 102</span></div>
+                            <div>RO Ongoing: <span>76 / 102 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 74%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- CARD MODEL 2 -->
-            <div class="card">
-                <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card-image">
-                    <img src="https://1.vikiplatform.com/c/41519c/799615ed6f.jpg" alt="Veil of Shadows">
-                </a>
-                <div class="card-content">
-                    <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card-title">Veil of Shadows</a>
-                    <div class="card-subtitle">29 episodes • China • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>dimghro</span></div>
-                        <div>English CE: <span>22 / 29</span></div>
-                        <div>RO Ongoing: <span>22 / 29 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 75%;"></div>
+                <!-- CARD MODEL 2 -->
+                <div class="card">
+                    <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card-image">
+                        <img src="https://1.vikiplatform.com/c/41519c/799615ed6f.jpg" alt="Veil of Shadows">
+                    </a>
+                    <div class="card-content">
+                        <a href="https://www.viki.com/tv/41519c-veil-of-shadows" target="_blank" class="card-title">Veil of Shadows</a>
+                        <div class="card-subtitle">29 episodes • China • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>dimghro</span></div>
+                            <div>English CE: <span>22 / 29</span></div>
+                            <div>RO Ongoing: <span>22 / 29 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- CARD MODEL 3 (Free Slot) -->
-            <div class="card">
-                <a href="#" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
-                </a>
-                <div class="card-content">
-                    <a href="#" class="card-title">Free Slot</a>
-                    <div class="card-subtitle">00 episodes</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>#N/A</span></div>
-                        <div>English CE: <span>0 / 00</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 0%;"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CARD MODEL 4 (Free Slot) -->
-            <div class="card">
-                <a href="#" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
-                </a>
-                <div class="card-content">
-                    <a href="#" class="card-title">Free Slot</a>
-                    <div class="card-subtitle">00 episodes</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>#N/A</span></div>
-                        <div>English CE: <span>0 / 00</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 0%;"></div>
+                <!-- CARD MODEL 3 (Free Slot) -->
+                <div class="card">
+                    <a href="#" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" class="card-title">Free Slot</a>
+                        <div class="card-subtitle">00 episodes</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>#N/A</span></div>
+                            <div>English CE: <span>0 / 00</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- CARD MODEL 5 (Free Slot) -->
-            <div class="card">
-                <a href="#" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
-                </a>
-                <div class="card-content">
-                    <a href="#" class="card-title">Free Slot</a>
-                    <div class="card-subtitle">00 episodes</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>#N/A</span></div>
-                        <div>English CE: <span>0 / 00</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 0%;"></div>
+                
+                <!-- CARD MODEL 4 (Free Slot) -->
+                <div class="card">
+                    <a href="#" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" class="card-title">Free Slot</a>
+                        <div class="card-subtitle">00 episodes</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>#N/A</span></div>
+                            <div>English CE: <span>0 / 00</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
                     </div>
                 </div>
+                
+                <!-- CARD MODEL 5 (Free Slot) -->
+                <div class="card">
+                    <a href="#" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Free Slot">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" class="card-title">Free Slot</a>
+                        <div class="card-subtitle">00 episodes</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>#N/A</span></div>
+                            <div>English CE: <span>0 / 00</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
-
+            <button class="slider-btn next" aria-label="Next">❯</button>
         </div>
     </section>
 
@@ -560,102 +616,107 @@
             <div class="section-title">ONGOING PRE-SUBBED</div>
         </div>
 
-        <div class="cards-grid">
-            
-            <!-- CARD MODEL -->
-            <div class="card">
-                <a href="#" target="_blank" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </a>
-                <div class="card-content">
-                    <a href="#" target="_blank" class="card-title">None</a>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CARD MODEL -->
-            <div class="card">
-                <a href="#" target="_blank" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </a>
-                <div class="card-content">
-                    <a href="#" target="_blank" class="card-title">None</a>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
+        <div class="slider-wrapper">
+            <button class="slider-btn prev" aria-label="Previous">❮</button>
+            <div class="cards-grid">
+                
+                <!-- CARD MODEL -->
+                <div class="card">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">None</a>
+                        <div class="card-subtitle">00 episodes • Country • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>Name</span></div>
+                            <div>English CE: <span>0 / 40</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- CARD MODEL -->
-            <div class="card">
-                <a href="#" target="_blank" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </a>
-                <div class="card-content">
-                    <a href="#" target="_blank" class="card-title">None</a>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
+                
+                <!-- CARD MODEL -->
+                <div class="card">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">None</a>
+                        <div class="card-subtitle">00 episodes • Country • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>Name</span></div>
+                            <div>English CE: <span>0 / 40</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                
+                <!-- CARD MODEL -->
+                <div class="card">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">None</a>
+                        <div class="card-subtitle">00 episodes • Country • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>Name</span></div>
+                            <div>English CE: <span>0 / 40</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- CARD MODEL -->
-            <div class="card">
-                <a href="#" target="_blank" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </a>
-                <div class="card-content">
-                    <a href="#" target="_blank" class="card-title">None</a>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CARD MODEL -->
-            <div class="card">
-                <a href="#" target="_blank" class="card-image">
-                    <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
-                </a>
-                <div class="card-content">
-                    <a href="#" target="_blank" class="card-title">None</a>
-                    <div class="card-subtitle">00 episodes • Country • 2026</div>
-                    <div class="card-stats">
-                        <div>Editor: <span>Name</span></div>
-                        <div>English CE: <span>0 / 40</span></div>
-                        <div>RO Ongoing: <span>0 / 00 eps</span></div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-fill" style="width: 25%;"></div>
+                <!-- CARD MODEL -->
+                <div class="card">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">None</a>
+                        <div class="card-subtitle">00 episodes • Country • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>Name</span></div>
+                            <div>English CE: <span>0 / 40</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
                     </div>
                 </div>
+                
+                <!-- CARD MODEL -->
+                <div class="card">
+                    <a href="#" target="_blank" class="card-image">
+                        <img src="https://s3.gifyu.com/images/redfox-fox.gif" alt="Proiect">
+                    </a>
+                    <div class="card-content">
+                        <a href="#" target="_blank" class="card-title">None</a>
+                        <div class="card-subtitle">00 episodes • Country • 2026</div>
+                        <div class="card-stats">
+                            <div>Editor: <span>Name</span></div>
+                            <div>English CE: <span>0 / 40</span></div>
+                            <div>RO Ongoing: <span>0 / 00 eps</span></div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-fill" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+            <button class="slider-btn next" aria-label="Next">❯</button>
         </div>
     </section>
 
@@ -673,34 +734,30 @@
         const dropdownMenu = document.getElementById('dropdownMenu');
         const genreBtn = document.getElementById('genreBtn');
 
-        // Toggle meniu la click pe butonul MENU
         mobileBtn.addEventListener('click', () => {
             menuList.classList.toggle('active');
         });
 
-        // Închide meniul după ce se dă click pe un link simplu
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
                     menuList.classList.remove('active');
-                    dropdownMenu.classList.remove('active'); // Închide și dropdown-ul dacă era deschis
+                    dropdownMenu.classList.remove('active');
                 }
             });
         });
         
-        // Deschide/închide submeniul 'By Genre' pe mobil
         genreBtn.addEventListener('click', (e) => {
             if (window.innerWidth <= 768) {
-                e.preventDefault(); // Previne saltul la href pe mobil pt a deschide meniul
+                e.preventDefault(); 
                 dropdownMenu.classList.toggle('active');
             }
         });
 
         // 2. Light / Dark Mode Toggle
         const themeToggle = document.getElementById('themeToggle');
-        const body = document.documentElement; // Aplica pe <html> e mai sigur cu variabile CSS
+        const body = document.documentElement; 
 
-        // Verificare preferință salvată în browser
         const currentTheme = localStorage.getItem('theme');
         if (currentTheme === 'dark') {
             body.setAttribute('data-theme', 'dark');
@@ -735,6 +792,53 @@
                 top: 0,
                 behavior: 'smooth'
             });
+        });
+
+        // 4. Funcționalitate Slider (Săgeți prev/next)
+        const sliderWrappers = document.querySelectorAll('.slider-wrapper');
+        
+        sliderWrappers.forEach(wrapper => {
+            const grid = wrapper.querySelector('.cards-grid');
+            const prevBtn = wrapper.querySelector('.prev');
+            const nextBtn = wrapper.querySelector('.next');
+
+            // Scroll la stânga
+            prevBtn.addEventListener('click', () => {
+                const cardWidth = grid.querySelector('.card').offsetWidth;
+                const gap = 20; // Aceeași valoare ca gap-ul din CSS
+                grid.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+            });
+
+            // Scroll la dreapta
+            nextBtn.addEventListener('click', () => {
+                const cardWidth = grid.querySelector('.card').offsetWidth;
+                const gap = 20;
+                grid.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+            });
+            
+            // Ascunde săgețile dacă ajungi la capăt
+            grid.addEventListener('scroll', () => {
+                // Dacă suntem la început, ascunde butonul prev
+                if (grid.scrollLeft <= 0) {
+                    prevBtn.style.opacity = '0.5';
+                    prevBtn.style.pointerEvents = 'none';
+                } else {
+                    prevBtn.style.opacity = '1';
+                    prevBtn.style.pointerEvents = 'auto';
+                }
+                
+                // Dacă suntem la final, ascunde butonul next
+                if (Math.ceil(grid.scrollLeft + grid.clientWidth) >= grid.scrollWidth) {
+                    nextBtn.style.opacity = '0.5';
+                    nextBtn.style.pointerEvents = 'none';
+                } else {
+                    nextBtn.style.opacity = '1';
+                    nextBtn.style.pointerEvents = 'auto';
+                }
+            });
+            
+            // Inițializare vizibilitate butoane
+            grid.dispatchEvent(new Event('scroll'));
         });
     </script>
 </body>
